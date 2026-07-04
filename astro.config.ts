@@ -3,14 +3,11 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import expressiveCode from "astro-expressive-code";
-import icon from "astro-icon";
-import robotsTxt from "astro-robots-txt";
 import webmanifest from "astro-webmanifest";
 import { unified } from "@astrojs/markdown-remark";
 import { defineConfig } from "astro/config";
 import { expressiveCodeOptions } from "./src/site.config";
 import { siteConfig } from "./src/site.config";
-import partytown from "@astrojs/partytown";
 
 import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
@@ -27,6 +24,9 @@ import rehypeUnwrapImages from "rehype-unwrap-images";
 const BASE_PATH = process.env.BASE_PATH || "/";
 const START_URL = BASE_PATH.endsWith("/") ? BASE_PATH : `${BASE_PATH}/`;
 
+const analytics = siteConfig.analytics;
+const hasAnalytics = analytics?.googleAnalyticsId || analytics?.goatcounterUrl;
+
 export default defineConfig({
 	site: "https://anjaygoel.github.io",
 	base: BASE_PATH,
@@ -39,20 +39,22 @@ export default defineConfig({
 		inlineStylesheets: "always",
 	},
 	integrations: [
-		partytown({
-			config: {
-				forward: ["dataLayer.push"],
-			},
-		}),
+		...(hasAnalytics
+			? [
+					(await import("@astrojs/partytown")).default({
+						config: {
+							forward: ["dataLayer.push"],
+						},
+					}),
+				]
+			: []),
 		expressiveCode(expressiveCodeOptions),
-		icon(),
 		sitemap({
 			changefreq: "weekly",
 			priority: 0.7,
 			lastmod: new Date(),
 		}),
 		mdx(),
-		robotsTxt(),
 		webmanifest({
 			// See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
 			name: siteConfig.title,
