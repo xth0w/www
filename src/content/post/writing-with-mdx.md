@@ -5,24 +5,5 @@ description: "Posts can also be .mdx — same frontmatter, but with imports, JSX
 tags: [guide, writing, mdx]
 ---
 
-Everything from [Writing with markdown](/posts/writing-with-markdown/) still applies. The frontmatter schema is shared,
-the layout is identical, OG images and reading progress all work the same. MDX only adds: imports at the top, JS
-expressions in `{ ... }`, and the ability to render components inline.
+# Olá, 
 
-## Inline expressions
-
-Today's year is **{new Date().getFullYear()}**. This post is by **{siteConfig.author}**, who set the site title to
-_{siteConfig.title}_. None of that is hard-coded into the file — it's read at build time from `src/site.config.ts`, so
-renaming yourself in one place updates every MDX post that references you.
-
-Add or remove an entry in that file and the list above updates on the next build.
-
-## When to reach for MDX
-
-Most posts don't need it — plain `.md` is shorter, easier to edit, and lints cleanly with prettier. Use `.mdx` when:
-
-- A post references data that lives elsewhere in the repo (config, a data file, a JSON dump).
-- You want to drop in a small interactive widget or chart without leaving the prose.
-- You're documenting a component and want to render it next to its description.
-
-For everything else, stick with markdown.

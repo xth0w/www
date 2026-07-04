@@ -27,7 +27,6 @@ export interface ProfileConfig {
 	avatar?: string;
 }
 
-
 export interface SiteConfig {
 	/** Site-wide display name; fallback for profile.name. */
 	author: string;

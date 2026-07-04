@@ -17,9 +17,7 @@ const meta = {
 	title: entry.data.title,
 };
 
-const personSameAs = socials
-	.filter((s) => !s.url.startsWith("mailto:"))
-	.map((s) => s.url);
+const personSameAs = socials.filter((s) => !s.url.startsWith("mailto:")).map((s) => s.url);
 
 const avatarUrl = profile?.avatar ? absoluteUrl(profile.avatar, Astro.site) : undefined;
 ---

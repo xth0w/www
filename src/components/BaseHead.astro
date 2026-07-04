@@ -21,10 +21,9 @@ if (!Astro.site) {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage = ogImageProp ?? new URL(
-	withBase(`/og-image${Astro.url.pathname.replace(/\/$/, "")}.png`),
-	Astro.site,
-).toString();
+const ogImage =
+	ogImageProp ??
+	new URL(withBase(`/og-image${Astro.url.pathname.replace(/\/$/, "")}.png`), Astro.site).toString();
 
 const robotsContent = noindex ? "noindex,nofollow" : "index,follow";
 ---
