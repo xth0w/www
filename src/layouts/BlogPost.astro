@@ -7,6 +7,7 @@ import { getAllPosts, sortMDByDate } from "@/data/post";
 import { siteConfig } from "@/site-config";
 import { formatBylineDate, formatEyebrowDate } from "@/utils/date";
 import { absoluteUrl, withBase } from "@/utils/path";
+import "katex/dist/katex.min.css";
 
 import BaseLayout from "./Base.astro";
 import { Schema } from "astro-seo-schema";
@@ -241,8 +242,6 @@ const readingTime: string =
 	.author-name {
 		letter-spacing: -0.01em;
 	}
-
-	@import "katex/dist/katex.min.css";
 
 	.post-article {
 		--tw-prose-body: hsl(var(--theme-text));
