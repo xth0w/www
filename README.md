@@ -10,6 +10,7 @@ Personal website and blog of Thom. A place for writing about technology, history
 - **Icons:** [astro-icon](https://github.com/natemoo-re/astro-icon) with Lucide, Phosphor, Simple Icons, Hugeicons
 - **Content:** Markdown + MDX with Zod-schematized collections
 - **Deployment:** Static HTML in `dist/`
+- **CMS:** [Pages CMS](https://pagescms.org) via `.pages.yml` (optional)
 
 ## Features
 
