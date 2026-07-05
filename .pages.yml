@@ -1,7 +1,7 @@
 content:
   - name: posts
     label: Blog Posts
-    path: src/content/posts
+    path: src/content/post
     type: collection
     filename: "{primary}.md"
     view:
@@ -44,7 +44,7 @@ content:
 
   - name: pages
     label: Páginas
-    path: src/content/pages
+    path: src/content/page
     type: collection
     filename: "{primary}.md"
     view:
