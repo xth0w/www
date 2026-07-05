@@ -1,0 +1,14 @@
+#         .-.
+#      .-(   )-.
+#     (___.__)__)
+#      ' ' ' ' '
+#     ' ' ' ' '
+#    ' ' ' ' '
+#
+#      rain over thom.wtf...
+#      why are you even here...
+User-agent: *
+
+Allow: /
+
+Sitemap: https://thom.wtf/sitemap-index.xml

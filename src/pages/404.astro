@@ -9,54 +9,18 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-	<section class="not-found">
-		<div class="eyebrow">404</div>
-		<h1>não encontrado</h1>
-		<p>
+	<section class="not-found max-w-[44ch] py-6 pb-20">
+		<div class="eyebrow mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-text/45">
+			404
+		</div>
+		<h1 class="m-0 mb-3 font-serif font-normal leading-[1.12] tracking-[-0.02em] text-text" style="font-size: clamp(28px, 5vw, 40px)">
+			não encontrado
+		</h1>
+		<p class="m-0 text-[16px] leading-[1.8] text-text">
 			oops! a pagina que você ta procurando não existe
-			<a href={withBase("/")}>Início</a>
+			<a class="border-b border-accent/40 text-accent motion-safe:transition-colors motion-safe:duration-[0.2s] motion-safe:ease hover:border-accent hover:text-text" href={withBase("/")}>Início</a>
 			·
-			<a href={withBase("/posts/")}>Arquivo</a>
+			<a class="border-b border-accent/40 text-accent motion-safe:transition-colors motion-safe:duration-[0.2s] motion-safe:ease hover:border-accent hover:text-text" href={withBase("/posts/")}>Arquivo</a>
 		</p>
 	</section>
 </PageLayout>
-
-<style>
-	.not-found {
-		padding: 24px 0 80px;
-		max-width: 44ch;
-	}
-	.eyebrow {
-		font-family: var(--font-mono);
-		font-size: 11px;
-		font-weight: 500;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: hsl(var(--theme-text) / 0.45);
-		margin-bottom: 16px;
-	}
-	.not-found h1 {
-		font-family: var(--font-serif);
-		font-weight: 400;
-		font-size: clamp(28px, 5vw, 40px);
-		letter-spacing: -0.02em;
-		line-height: 1.12;
-		color: hsl(var(--theme-text));
-		margin: 0 0 12px;
-	}
-	.not-found p {
-		font-size: 16px;
-		line-height: 1.8;
-		color: hsl(var(--theme-text));
-		margin: 0;
-	}
-	.not-found a {
-		color: hsl(var(--theme-accent));
-		border-bottom: 1px solid hsl(var(--theme-accent) / 0.4);
-		transition: border-color 0.2s ease;
-	}
-	.not-found a:hover {
-		border-color: hsl(var(--theme-accent));
-		color: hsl(var(--theme-text));
-	}
-</style>

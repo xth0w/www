@@ -24,7 +24,7 @@ export const siteConfig: SiteConfig = {
 		name: "Thom",
 		email: "hello@thom.wtf",
 		github: "https://github.com/xth0w",
-		avatar: "/avatar.png",
+		avatar: "/avatar.webp",
 	},
 };
 

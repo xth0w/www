@@ -17,8 +17,6 @@ const archiveCount = allPosts.length;
 const profile = siteConfig.profile;
 const siteUrl = (path: string) => absoluteUrl(path, Astro.site);
 
-// Pré-computa data/label do post em destaque uma única vez, em vez de
-// chamar getPostSortDate/toLocaleDateString repetidamente no template.
 const featuredDate = featured ? getPostSortDate(featured) : null;
 const featuredIso = featuredDate ? featuredDate.toISOString() : "";
 const featuredLabel = featuredDate ? featuredDate.toLocaleDateString("pt-PT") : "";
@@ -52,24 +50,40 @@ const featuredLabel = featuredDate ? featuredDate.toLocaleDateString("pt-PT") : 
 />
 
 <PageLayout meta={{ title: "Início", description: siteConfig.description }}>
-	<section class="hero">
-		<div class="hero-header">
+	<section class="hero mb-[76px] max-[720px]:mb-14 max-[420px]:mb-12">
+		<div class="hero-header mb-4 flex items-center gap-4 max-[420px]:gap-3">
 			{
 				profile?.avatar && (
-					<img src={profile.avatar} alt={siteConfig.author} class="avatar" width="56" height="56" />
+					<img
+						src={profile.avatar}
+						alt={siteConfig.author}
+						class="avatar h-14 w-14 flex-shrink-0 rounded-full border border-hairline object-cover motion-safe:transition-all motion-safe:duration-[0.2s] motion-safe:ease hover:-translate-y-px hover:border-accent max-[420px]:h-[46px] max-[420px]:w-[46px]" style="box-shadow: 0 0 0 3px hsl(var(--theme-bg))"
+						width="56"
+						height="56"
+					/>
 				)
 			}
-			<div class="hero-title">
-				<h1>{siteConfig.author}</h1>
-				<span class="hero-status">everything is going to be okay...</span>
+			<div class="hero-title flex flex-col gap-1">
+				<h1 class="m-0 font-serif font-bold leading-[0.95] tracking-[-0.05em] text-text [text-wrap:balance]" style="font-size: clamp(2.2rem, 6vw, 4.2rem)">
+					{siteConfig.author}
+				</h1>
+				<span class="font-mono text-[10.5px] lowercase tracking-[0.12em] text-accent max-[420px]:text-[10px]">everything is going to be okay...</span>
 			</div>
 		</div>
-		<p>{siteConfig.description}</p>
-		<div class="socials">
+		<p class="mb-[22px] mt-0 max-w-[60ch] text-[18px] leading-[1.65] text-text [text-wrap:pretty] [white-space:pre-line] max-[720px]:text-[18px] max-[420px]:text-[17px]">
+			{siteConfig.description}
+		</p>
+		<div class="socials mt-4 flex flex-wrap items-center gap-[10px] font-sans text-[13px] text-text/72 max-[420px]:text-[12.5px]">
 			{
 				socials.map((s, i) => (
 					<>
-						<a href={s.url} rel="noreferrer" target="_blank" aria-label={s.name}>
+						<a
+							href={s.url}
+							rel="noreferrer"
+							target="_blank"
+							aria-label={s.name}
+							class="text-text-muted motion-safe:transition-colors motion-safe:duration-[0.2s] motion-safe:ease hover:text-accent"
+						>
 							<Icon name={s.icon} size={18} />
 						</a>
 					</>
@@ -78,7 +92,7 @@ const featuredLabel = featuredDate ? featuredDate.toLocaleDateString("pt-PT") : 
 		</div>
 	</section>
 
-	<section class="writing" aria-labelledby="writing-label">
+	<section class="writing mb-[84px] max-[420px]:mb-16" aria-labelledby="writing-label">
 		<div class="section-label" id="writing-label">escritos</div>
 		<div class="timeline">
 			{
@@ -89,21 +103,27 @@ const featuredLabel = featuredDate ? featuredDate.toLocaleDateString("pt-PT") : 
 						href={withBase(`/posts/${featured.id}/`)}
 						style="--i: 0"
 					>
-						<div class="post-rail">
+						<div class="post-rail max-md:hidden">
 							<time class="post-date" datetime={featuredIso}>
 								{featuredLabel}
 							</time>
 							<span class="post-dot" aria-hidden="true" />
 						</div>
-						<div class="post-body">
-							<div class="post-stamp">mais recente · {featuredLabel}</div>
-							<h2 class="post-title">{featured.data.title}</h2>
-							<p class="post-excerpt">{featured.data.description}</p>
+						<div class="post-body pb-14 max-md:border-b max-md:border-hairline max-md:pb-6 max-md:mb-1">
+							<div class="post-stamp mb-3 font-mono text-[10.5px] lowercase tracking-[0.12em] text-accent">
+								mais recente · {featuredLabel}
+							</div>
+							<h2 class="post-title m-0 mb-[14px] font-medium leading-[1.14] tracking-[-0.03em] text-text [text-wrap:balance] [word-wrap:break-word] max-md:text-[22px] max-md:leading-[1.2] max-md:mb-[10px] max-md:tracking-[-0.015em] max-[420px]:text-[17px]" style="font-size: clamp(1.8rem, 4vw, 2.4rem)">
+								{featured.data.title}
+							</h2>
+							<p class="post-excerpt m-0 mb-4 max-w-[58ch] text-[18px] leading-[1.62] text-text-muted [word-wrap:break-word] [overflow-wrap:break-word] max-md:text-[15.5px] max-md:leading-[1.55] max-md:mb-[10px] max-[420px]:text-[15px]">
+								{featured.data.description}
+							</p>
 							{!!featured.data.tags?.length && (
-								<div class="post-meta">
+								<div class="post-meta font-mono text-[11.5px] text-text/72 [font-feature-settings:'tnum'] [font-variant-numeric:tabular-nums] max-md:text-[11px]">
 									{featured.data.tags.map((t, i) => (
 										<Fragment>
-											{i > 0 && <span class="dot">·</span>}
+											{i > 0 && <span class="dot mx-2 text-faint">·</span>}
 											<span>{t}</span>
 										</Fragment>
 									))}
@@ -136,171 +156,20 @@ const featuredLabel = featuredDate ? featuredDate.toLocaleDateString("pt-PT") : 
 				))
 			}
 
-			<div class="archive-link" style={`--i: ${rest.length + 1}`}>
-				<a data-astro-prefetch href={withBase("/posts/")}
-					>ver todas as {archiveCount} publicações →</a
+			<div class="archive-link col-start-2 mt-2 font-sans text-[13.5px] text-text/72 max-md:mt-0">
+				<a
+					data-astro-prefetch
+					href={withBase("/posts/")}
+					class="inline-block px-0 py-[6px] text-text-muted underline decoration-1 underline-offset-[3px] decoration-text/35 motion-safe:transition-all motion-safe:duration-[0.2s] motion-safe:ease hover:text-accent hover:decoration-accent hover:translate-x-0.5"
 				>
+					ver todas as {archiveCount} publicações →
+				</a>
 			</div>
 		</div>
 	</section>
 </PageLayout>
 
 <style>
-	/* ---------- Hero ---------- */
-	.hero {
-		margin-bottom: 76px;
-	}
-	.hero-header {
-		display: flex;
-		align-items: center;
-		gap: 16px;
-		margin-bottom: 16px;
-	}
-
-	.avatar {
-		width: 56px;
-		height: 56px;
-		border-radius: 50%;
-		object-fit: cover;
-		border: 1px solid var(--hairline);
-		box-shadow: 0 0 0 3px hsl(var(--theme-bg));
-		flex-shrink: 0;
-		transition:
-			transform 0.2s ease,
-			border-color 0.2s ease;
-	}
-	.hero-header:hover .avatar {
-		transform: translateY(-1px);
-		border-color: hsl(var(--theme-accent));
-	}
-	.hero h1 {
-		font-size: clamp(2.2rem, 6vw, 4.2rem);
-		line-height: 0.95;
-		letter-spacing: -0.05em;
-		margin: 0;
-		font-weight: 700;
-		text-wrap: balance;
-		font-family: var(--font-serif);
-	}
-	.hero p {
-		font-size: 18px;
-		line-height: 1.65;
-		color: hsl(var(--theme-text));
-		margin: 0 0 22px;
-		max-width: 60ch;
-		text-wrap: pretty;
-		white-space: pre-line;
-	}
-	.socials {
-		font-family: var(--font-sans);
-		font-size: 13px;
-		color: hsl(var(--theme-text) / 0.72);
-		margin-top: 16px;
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		flex-wrap: wrap;
-	}
-	.socials a {
-		color: hsl(var(--theme-text-muted));
-		transition: color 0.2s ease;
-	}
-	.socials a:hover {
-		color: hsl(var(--theme-accent));
-		text-decoration-color: hsl(var(--theme-accent));
-	}
-	/* Removed .socials .sep rule */
-
-	/* ---------- Writing timeline ---------- */
-	.writing {
-		margin-bottom: 84px;
-	}
-	/* ---------- Featured post ---------- */
-	.post.featured .post-body {
-		padding-bottom: 56px;
-	}
-	.post.featured .post-stamp {
-		font-family: var(--font-mono);
-		font-size: 10.5px;
-		letter-spacing: 0.12em;
-		text-transform: lowercase;
-		color: hsl(var(--theme-accent));
-		margin-bottom: 12px;
-	}
-	.post.featured .post-title {
-		font-size: clamp(1.8rem, 4vw, 2.4rem);
-		line-height: 1.14;
-		margin-bottom: 14px;
-		letter-spacing: -0.03em;
-	}
-	.post.featured .post-excerpt {
-		font-size: 18px;
-		line-height: 1.62;
-		color: hsl(var(--theme-text-muted));
-		margin: 0 0 16px;
-		max-width: 58ch;
-		word-wrap: break-word;
-		overflow-wrap: break-word;
-	}
-	.post.featured .post-meta {
-		font-family: var(--font-mono);
-		font-size: 11.5px;
-		color: hsl(var(--theme-text) / 0.72);
-		font-variant-numeric: tabular-nums;
-		font-feature-settings: "tnum";
-	}
-	.post.featured .post-meta .dot {
-		color: var(--faint);
-		margin: 0 8px;
-	}
-	.post.featured .post-dot {
-		--rail-dot-size: 11px;
-		border-color: hsl(var(--theme-text-muted));
-	}
-	.post.featured:hover .post-dot {
-		background: hsl(var(--theme-accent));
-		border-color: hsl(var(--theme-accent));
-	}
-
-	.archive-link {
-		grid-column: 2;
-		margin-top: 8px;
-		font-family: var(--font-sans);
-		font-size: 13.5px;
-		color: hsl(var(--theme-text) / 0.72);
-	}
-	.archive-link a {
-		display: inline-block;
-		padding: 6px 0;
-		color: hsl(var(--theme-text-muted));
-		text-decoration: underline;
-		text-decoration-color: hsl(var(--theme-text) / 0.35);
-		text-decoration-thickness: 1px;
-		text-underline-offset: 3px;
-		transition:
-			color 0.2s ease,
-			text-decoration-color 0.2s ease,
-			transform 0.2s ease;
-	}
-	.archive-link a:hover {
-		color: hsl(var(--theme-accent));
-		text-decoration-color: hsl(var(--theme-accent));
-		transform: translateX(3px);
-	}
-	.hero-title {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-	}
-
-	.hero-status {
-		font-family: var(--font-mono);
-		font-size: 10.5px;
-		letter-spacing: 0.12em;
-		text-transform: lowercase;
-		color: hsl(var(--theme-accent));
-	}
-
 	.socials a:focus-visible,
 	.archive-link a:focus-visible {
 		outline: 2px solid hsl(var(--theme-accent));
@@ -308,72 +177,12 @@ const featuredLabel = featuredDate ? featuredDate.toLocaleDateString("pt-PT") : 
 		border-radius: 3px;
 	}
 
-	@media (max-width: 720px) {
-		.hero {
-			margin-bottom: 56px;
-		}
-		.hero p {
-			font-size: 18px;
-		}
-		.post.featured .post-rail {
-			display: none;
-		}
-		.post.featured .post-body {
-			padding-bottom: 24px;
-			border-bottom: 1px solid var(--hairline);
-			margin-bottom: 4px;
-		}
-		.post.featured .post-title {
-			font-size: 22px;
-			line-height: 1.2;
-			letter-spacing: -0.015em;
-			margin-bottom: 10px;
-		}
-		.post.featured .post-excerpt {
-			font-size: 15.5px;
-			line-height: 1.55;
-			margin: 0 0 10px;
-		}
-		.post.featured .post-meta {
-			font-size: 11px;
-		}
-		.archive-link {
-			margin-top: 0;
-		}
+	.post.featured .post-dot {
+		--rail-dot-size: 11px;
+		border-color: hsl(var(--theme-text-muted));
 	}
-
-	@media (max-width: 420px) {
-		.hero {
-			margin-bottom: 48px;
-		}
-		.hero p {
-			font-size: 17px;
-		}
-		.socials {
-			font-size: 12.5px;
-		}
-		.socials .sep {
-			margin: 0 6px;
-		}
-		.writing {
-			margin-bottom: 64px;
-		}
-		.post.featured .post-title {
-			font-size: 17px;
-		}
-		.post.featured .post-excerpt {
-			font-size: 15px;
-		}
-		.hero-header {
-			gap: 12px;
-		}
-
-		.avatar {
-			width: 46px;
-			height: 46px;
-		}
-		.hero-status {
-			font-size: 10px;
-		}
+	.post.featured:hover .post-dot {
+		background: hsl(var(--theme-accent));
+		border-color: hsl(var(--theme-accent));
 	}
 </style>

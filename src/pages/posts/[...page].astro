@@ -6,7 +6,7 @@ import { withBase } from "@/utils/path";
 import type { GetStaticPaths, Page } from "astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
-	const MAX_POSTS_PER_PAGE = 1000;
+	const MAX_POSTS_PER_PAGE = 50;
 	const allPosts = await getAllPosts();
 	const allPostsByDate = sortMDByDate(allPosts);
 	return paginate(allPostsByDate, { pageSize: MAX_POSTS_PER_PAGE });
@@ -19,20 +19,20 @@ interface Props {
 const { page } = Astro.props;
 
 const meta = {
-	description: "Leia minha coleção de publicações e os temas que me interessam",
-	title: "Publicações",
+	description: "arquivo de textos, notas e reflexões",
+	title: "posts",
 };
 
 const paginationProps = {
 	...(page.url.prev && {
 		prevUrl: {
-			text: "← Anterior",
+			text: "← mais recentes",
 			url: page.url.prev,
 		},
 	}),
 	...(page.url.next && {
 		nextUrl: {
-			text: "Próxima →",
+			text: "mais antigos →",
 			url: page.url.next,
 		},
 	}),
@@ -42,8 +42,10 @@ const totalCount = page.total;
 ---
 
 <PageLayout meta={meta}>
-	<section class="writing" aria-labelledby="writing-label">
-		<div class="section-label" id="writing-label">{totalCount} textos</div>
+	<section class="writing mb-[72px] max-[420px]:mb-12" aria-labelledby="writing-label">
+		<div class="section-label" id="writing-label">
+			{totalCount} {totalCount === 1 ? "texto" : "textos"}
+		</div>
 		<div class="timeline">
 			{
 				page.data.map((p, idx) => (
@@ -55,7 +57,11 @@ const totalCount = page.total;
 					>
 						<div class="post-rail">
 							<time class="post-date" datetime={getPostSortDate(p).toISOString()}>
-								{getPostSortDate(p).toLocaleDateString("pt-PT")}
+								{getPostSortDate(p).toLocaleDateString("pt-PT", {
+									year: "numeric",
+									month: "2-digit",
+									day: "2-digit",
+								})}
 							</time>
 							<span class="post-dot" aria-hidden="true" />
 						</div>
@@ -69,14 +75,22 @@ const totalCount = page.total;
 		</div>
 		{
 			(paginationProps.prevUrl || paginationProps.nextUrl) && (
-				<nav class="pagination" aria-label="Paginação">
+				<nav class="pagination col-start-2 mt-10 flex items-center justify-between gap-6 border-t border-hairline pt-6 max-md:mt-6" aria-label="Paginação">
 					{paginationProps.prevUrl && (
-						<a class="pag-link prev" data-astro-prefetch href={paginationProps.prevUrl.url}>
+						<a
+							class="pag-link prev mr-auto inline-block px-1 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-text-muted underline decoration-1 underline-offset-[3px] decoration-text/35 motion-safe:transition-all motion-safe:duration-[0.2s] motion-safe:ease hover:text-accent hover:decoration-accent hover:translate-x-0.5"
+							data-astro-prefetch
+							href={paginationProps.prevUrl.url}
+						>
 							{paginationProps.prevUrl.text}
 						</a>
 					)}
 					{paginationProps.nextUrl && (
-						<a class="pag-link next" data-astro-prefetch href={paginationProps.nextUrl.url}>
+						<a
+							class="pag-link next ml-auto inline-block px-1 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-text-muted underline decoration-1 underline-offset-[3px] decoration-text/35 motion-safe:transition-all motion-safe:duration-[0.2s] motion-safe:ease hover:text-accent hover:decoration-accent hover:-translate-x-0.5"
+							data-astro-prefetch
+							href={paginationProps.nextUrl.url}
+						>
 							{paginationProps.nextUrl.text}
 						</a>
 					)}
@@ -87,64 +101,9 @@ const totalCount = page.total;
 </PageLayout>
 
 <style>
-	.writing {
-		margin-bottom: 72px;
-	}
-
-	.pagination {
-		grid-column: 2;
-		margin-top: 32px;
-		display: flex;
-		gap: 24px;
-		align-items: center;
-		justify-content: space-between;
-	}
-	.pag-link {
-		display: inline-block;
-		padding: 8px 4px;
-		font-family: var(--font-mono);
-		font-size: 11px;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: hsl(var(--theme-text-muted));
-		text-decoration: underline;
-		text-decoration-color: hsl(var(--theme-text) / 0.35);
-		text-decoration-thickness: 1px;
-		text-underline-offset: 3px;
-		transition:
-			color 0.2s ease,
-			text-decoration-color 0.2s ease,
-			transform 0.2s ease;
-	}
-	.pag-link.prev {
-		margin-right: auto;
-	}
-	.pag-link.next {
-		margin-left: auto;
-	}
-	.pag-link:hover {
-		color: hsl(var(--theme-accent));
-		text-decoration-color: hsl(var(--theme-accent));
-		transform: translateX(2px);
-	}
-	.pag-link.next:hover {
-		transform: translateX(-2px);
-	}
 	.pag-link:focus-visible {
 		outline: 2px solid hsl(var(--theme-accent));
 		outline-offset: 3px;
 		border-radius: 3px;
-	}
-
-	@media (max-width: 720px) {
-		.pagination {
-			margin-top: 16px;
-		}
-	}
-
-	@media (max-width: 420px) {
-		.writing {
-			margin-bottom: 48px;
-		}
 	}
 </style>

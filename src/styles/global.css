@@ -4,6 +4,7 @@
 @import "@fontsource-variable/inter/wght.css";
 @import "@fontsource-variable/jetbrains-mono/wght.css";
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @config "../../tailwind.config.ts";
 
@@ -32,7 +33,7 @@
 		--rail-gap: 36px; /* gap between rail and post body */
 
 		color-scheme: dark;
-		--theme-bg: rgb(25, 31, 26); /* #131110 */
+		--theme-bg: #191f1a; /* #131110 */
 		--theme-text: 42deg 35% 92%; /* #f4f0e3 */
 		--theme-text-muted: 36deg 18% 73%; /* #c8c1ae */
 		--theme-accent: 145deg 28% 62%; /* #c89761 */
@@ -278,6 +279,49 @@
 }
 .aside-warning {
 	--aside-accent: var(--aside-rust);
+}
+
+/* Bio content — rendered markdown on the About page */
+.bio ul {
+	list-style: disc;
+	list-style-position: inside;
+	margin: 0 0 28px;
+	padding: 0;
+}
+.bio ul li {
+	margin-bottom: 6px;
+	text-wrap: pretty;
+	word-wrap: break-word;
+	overflow-wrap: anywhere;
+}
+.bio ul li:last-child {
+	margin-bottom: 0;
+}
+.bio p {
+	margin: 0 0 22px;
+	text-wrap: pretty;
+}
+.bio p:last-child {
+	margin-bottom: 0;
+}
+.bio a {
+	color: hsl(var(--theme-text));
+	text-decoration: underline;
+	text-decoration-color: hsl(var(--theme-text) / 0.35);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+	transition:
+		color 0.2s ease,
+		text-decoration-color 0.2s ease;
+}
+.bio a:hover {
+	color: hsl(var(--theme-accent));
+	text-decoration-color: hsl(var(--theme-accent));
+}
+.bio a:focus-visible {
+	outline: 2px solid hsl(var(--theme-accent));
+	outline-offset: 3px;
+	border-radius: 3px;
 }
 
 /* Stagger entry: items set --i inline; nth-child rules cover the rest. */
