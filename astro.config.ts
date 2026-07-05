@@ -21,10 +21,6 @@ import rehypeUnwrapImages from "rehype-unwrap-images";
 // Defaults to root; the deploy workflow sets BASE_PATH for subpath hosts
 // (GitHub Pages project sites). See "Base path" in the README.
 const BASE_PATH = process.env.BASE_PATH || "/";
-const START_URL = BASE_PATH.endsWith("/") ? BASE_PATH : `${BASE_PATH}/`;
-
-const analytics = siteConfig.analytics;
-const hasAnalytics = analytics?.googleAnalyticsId || analytics?.goatcounterUrl;
 
 export default defineConfig({
 	site: "https://thom.wtf",
@@ -38,15 +34,6 @@ export default defineConfig({
 		inlineStylesheets: "always",
 	},
 	integrations: [
-		...(hasAnalytics
-			? [
-					(await import("@astrojs/partytown")).default({
-						config: {
-							forward: ["dataLayer.push"],
-						},
-					}),
-				]
-			: []),
 		icon(),
 		expressiveCode(expressiveCodeOptions),
 		sitemap({
